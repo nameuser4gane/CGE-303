@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: ad8b83300c3b2254d9ad73648d72c563
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - textbox: {instanceID: 0}
+  - continueButton: {instanceID: 0}
+  - dialoguePanel: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

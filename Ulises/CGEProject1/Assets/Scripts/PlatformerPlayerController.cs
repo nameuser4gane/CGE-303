@@ -7,15 +7,16 @@ public class PlatformerPlayerController : MonoBehaviour
 
     public float moveSpeed = 5f;
     public float jumpForce = 10f;
-    
-    
     public LayerMask groudLayer;
-    public Transform  groundCheck;
+    public Transform  groundCheck; 
     public float groundCheckRadius = 0.2f;
 
     private Rigidbody2D rb;
     private bool isGrounded;
     private float horizontalInput;
+
+    public AudioClip jumpSound;
+    private AudioSource playerAudio;
 
 
 
@@ -25,11 +26,15 @@ public class PlatformerPlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         
+        playerAudio = GetComponent<AudioSource>();
+
 
         if (groundCheck == null)
         {
             Debug.LogError("GroundCheck not assigned to the player controller!");
         }
+
+
     }
 
     // Update is called once per frame
@@ -41,6 +46,9 @@ public class PlatformerPlayerController : MonoBehaviour
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+
+            playerAudio.PlayOneShot(jumpSound, 1.0f);
+
         }
         
     }
