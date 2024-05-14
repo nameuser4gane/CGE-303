@@ -7,16 +7,20 @@ public class PlatformerPlayerController : MonoBehaviour
 
     public float moveSpeed = 5f;
     public float jumpForce = 10f;
-    public LayerMask groudLayer;
+    public LayerMask groundLayer;
     public Transform  groundCheck; 
     public float groundCheckRadius = 0.2f;
+    private bool isGrounded;
 
     private Rigidbody2D rb;
-    private bool isGrounded;
     private float horizontalInput;
+
+    private Animator animator;
 
     public AudioClip jumpSound;
     private AudioSource playerAudio;
+
+    
 
 
 
@@ -27,6 +31,8 @@ public class PlatformerPlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         
         playerAudio = GetComponent<AudioSource>();
+
+        animator = GetComponent<Animator>();
 
 
         if (groundCheck == null)
@@ -55,17 +61,32 @@ public class PlatformerPlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.velocity = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
+        if (!PlayerHealth.hitRecently)
+            {
 
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius);
+                rb.velocity = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
+            }
+        
 
+        //xVelocityAbs
+        animator.SetFloat("xVelocityAbs", Mathf.Abs(rb.velocity.x));
+
+        //yVelocity
+        animator.SetFloat("yVelocity", rb.velocity.y);
+
+
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+
+        animator.SetBool("onGround", isGrounded);
+
+        //make player face direction of movement
         if(horizontalInput > 0)
         {
-            transform.localScale = new Vector3(1f, 1f, 1f);
+            transform.rotation = Quaternion.Euler(0, 0, 0);
         }
         else if (horizontalInput < 0)
         {
-            transform.localScale = new Vector3(-1f, 1f, 1f);
+            transform.rotation = Quaternion.Euler(00, 180, 0);
         }
 
     }
